@@ -14,6 +14,9 @@ public class SpringAmqpTest {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    /**
+     * 发送消息到simple queue
+     */
     @Test
     public void testSendMessage() {
         // 1.创建消息
@@ -23,6 +26,10 @@ public class SpringAmqpTest {
         rabbitTemplate.convertAndSend(queueName, message);
     }
 
+
+    /**
+     * 发送消息到work queue
+     */
     @Test
     public void testSendMessageWorkQueue() throws InterruptedException {
         // 1.创建消息
@@ -35,11 +42,23 @@ public class SpringAmqpTest {
         }
     }
 
+    /**
+     * 发送消息到Fanout Exchange
+     */
     @Test
     public void testSendMessageFanoutExChange() {
         // 交换机 名
         String exchangeName = "exchange.fanout";
         String message = "Hello, testSendMessageFanoutExChange!";
         rabbitTemplate.convertAndSend(exchangeName, "", message);
+    }
+
+
+    @Test
+    public void testSendMessageDirectExChange() {
+        // 交换机 名
+        String exchangeName = "exchange.direct";
+        String message = "Hello,yellow!";
+        rabbitTemplate.convertAndSend(exchangeName, "yellow", message);
     }
 }
