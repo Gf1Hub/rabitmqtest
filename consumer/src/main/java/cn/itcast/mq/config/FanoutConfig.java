@@ -60,4 +60,9 @@ public class FanoutConfig {
 
     }
 
+    @Bean
+    public Queue objectQueue() {
+        return new Queue("object.queue");
+    }
+
 }
