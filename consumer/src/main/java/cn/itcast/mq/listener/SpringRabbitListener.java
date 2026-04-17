@@ -14,18 +14,18 @@ public class SpringRabbitListener {
 //    public void listenSimpleQueueMessage(String message) {
 //        System.out.println("简单队列，监听到的消息是：【" + message + "】");
 //    }
-
-    @RabbitListener(queues = "simple.queue")
-    public void listenWorkQueueMessage1(String message) throws InterruptedException {
-        System.out.println("消费者1，监听到的消息是：【" + message + "】");
-        Thread.sleep(20);
-    }
-
-    @RabbitListener(queues = "simple.queue")
-    public void listenWorkQueueMessage2(String message) throws InterruptedException {
-        System.err.println("消费者2.....监听到的消息是：【" + message + "】");
-        Thread.sleep(200);
-    }
+//
+//    @RabbitListener(queues = "simple.queue")
+//    public void listenWorkQueueMessage1(String message) throws InterruptedException {
+//        System.out.println("消费者1，监听到的消息是：【" + message + "】");
+//        Thread.sleep(20);
+//    }
+//
+//    @RabbitListener(queues = "simple.queue")
+//    public void listenWorkQueueMessage2(String message) throws InterruptedException {
+//        System.err.println("消费者2.....监听到的消息是：【" + message + "】");
+//        Thread.sleep(200);
+//    }
 
     /**
      * 监听 fanout 交换机
@@ -61,5 +61,27 @@ public class SpringRabbitListener {
     ))
     public void listenDirectQueue2Message(String message) {
         System.out.println("消费者监听到direct.queue2的消息是：【" + message + "】");
+    }
+
+    /**
+     * 监听 topic
+     * @param message
+     */
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "topic.queue1"),
+            exchange = @Exchange(name = "exchange.topic", type = ExchangeTypes.TOPIC),
+            key = {"china.#", "america.#"}
+    ))
+    public void listenTopicQueue1Message(String message) {
+        System.out.println("消费者监听到topic.queue1的消息是：【" + message + "】");
+    }
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "topic.queue2"),
+            exchange = @Exchange(name = "exchange.topic", type = ExchangeTypes.TOPIC),
+            key = {"#.news"}
+    ))
+    public void listenTopicQueue2Message(String message) {
+        System.out.println("消费者监听到topic.queue2的消息是：【" + message + "】");
     }
 }

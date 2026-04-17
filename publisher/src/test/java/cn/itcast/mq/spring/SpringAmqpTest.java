@@ -53,12 +53,24 @@ public class SpringAmqpTest {
         rabbitTemplate.convertAndSend(exchangeName, "", message);
     }
 
-
+    /**
+     * 测试发送消息到Direct Exchange
+     */
     @Test
     public void testSendMessageDirectExChange() {
         // 交换机 名
         String exchangeName = "exchange.direct";
         String message = "Hello,yellow!";
         rabbitTemplate.convertAndSend(exchangeName, "yellow", message);
+    }
+
+    @Test
+    public void testSendMessageTopicExChange() {
+        // 交换机 名
+        String exchangeName = "exchange.topic";
+        String message = "Hello,China!";
+        rabbitTemplate.convertAndSend(exchangeName, "china", message);
+        String message1 = "Hello,news!";
+        rabbitTemplate.convertAndSend(exchangeName, "china.news", message1);
     }
 }
